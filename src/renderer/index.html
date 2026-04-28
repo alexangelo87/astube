@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>asTube</title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <div id="titlebar">
+      <div class="titlebar-logo">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="18" height="18" rx="4" fill="#D32F2F"/>
+          <path d="M7 5.5L13 9L7 12.5V5.5Z" fill="white"/>
+        </svg>
+        <span>as<strong>Tube</strong></span>
+      </div>
+    </div>
+
+    <div id="overlay" class="hidden">
+      <div class="overlay-content">
+        <div class="spinner"></div>
+        <p id="overlay-message">Inicializando...</p>
+      </div>
+    </div>
+
+    <div id="app">
+      <nav id="tabs">
+        <button class="tab active" data-tab="single">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          Vídeo
+        </button>
+        <button class="tab" data-tab="playlist">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h13v-2H3v2zm0-5h10v-2H3v2zm0-7v2h13V6H3zm18 9.59L17.42 12 21 8.41 19.59 7l-5 5 5 5L21 15.59z"/></svg>
+          Playlist
+        </button>
+        <button class="tab" data-tab="batch">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 14H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+          Lote
+        </button>
+      </nav>
+
+      <main id="content">
+        <section id="tab-single" class="tab-content active">
+          <div class="input-group">
+            <label for="single-url">URL do Vídeo</label>
+            <input
+              type="text"
+              id="single-url"
+              placeholder="https://youtube.com/watch?v=..."
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+        </section>
+
+        <section id="tab-playlist" class="tab-content">
+          <div class="input-group">
+            <label for="playlist-url">URL da Playlist</label>
+            <input
+              type="text"
+              id="playlist-url"
+              placeholder="https://youtube.com/playlist?list=..."
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+        </section>
+
+        <section id="tab-batch" class="tab-content">
+          <div class="input-group">
+            <label>Arquivo de links (.txt — um por linha)</label>
+            <div class="file-row">
+              <input
+                type="text"
+                id="batch-file-path"
+                placeholder="Selecione um arquivo .txt..."
+                readonly
+              />
+              <button id="browse-file" class="btn-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-8l-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>
+                Procurar
+              </button>
+            </div>
+          </div>
+          <div id="batch-preview" class="hidden">
+            <div id="batch-info" class="batch-info"></div>
+            <ul id="batch-list" class="batch-list"></ul>
+          </div>
+        </section>
+      </main>
+
+      <div id="settings">
+        <div class="settings-row">
+          <div class="setting-item">
+            <label for="format">Formato</label>
+            <select id="format">
+              <option value="mp4">MP4 (Vídeo)</option>
+              <option value="mp3">MP3 (Áudio)</option>
+            </select>
+          </div>
+          <div class="setting-item" id="quality-item">
+            <label for="quality">Resolução</label>
+            <select id="quality">
+              <option value="best">Melhor disponível</option>
+              <option value="2160p">4K (2160p)</option>
+              <option value="1080p" selected>Full HD (1080p)</option>
+              <option value="720p">HD (720p)</option>
+              <option value="480p">SD (480p)</option>
+              <option value="360p">360p</option>
+            </select>
+          </div>
+          <div class="setting-item setting-item--wide">
+            <label>Pasta de saída</label>
+            <div class="file-row">
+              <input type="text" id="output-dir" placeholder="Carregando..." readonly />
+              <button id="browse-dir" class="btn-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-8l-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>
+                Pasta
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="action-bar">
+        <button id="download-btn" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          Baixar
+        </button>
+        <button id="cancel-btn" class="btn-secondary" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          Cancelar
+        </button>
+        <button id="open-dir-btn" class="btn-ghost hidden">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-8l-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>
+          Abrir pasta
+        </button>
+      </div>
+
+      <div id="progress-section" class="hidden">
+        <div id="progress-header">
+          <span id="progress-label">Aguardando...</span>
+          <span id="progress-percent">0%</span>
+        </div>
+        <div id="progress-track">
+          <div id="progress-fill"></div>
+        </div>
+        <div id="progress-meta">
+          <span id="progress-speed"></span>
+          <span id="progress-eta"></span>
+          <span id="progress-size"></span>
+        </div>
+      </div>
+
+      <div id="log-section">
+        <div id="log-header">
+          <span>Log</span>
+          <button id="clear-log" class="btn-tiny">Limpar</button>
+        </div>
+        <div id="log"></div>
+      </div>
+    </div>
+
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npx tsc *)",
+      "Bash(yt-dlp --version)",
+      "Bash(node *)",
+      "Bash(pkill -f \"Electron\")",
+      "Bash(pkill -f \"electron-vite\")",
+      "Bash(npm run *)",
+      "Bash(npm test *)"
+    ]
+  }
+}
