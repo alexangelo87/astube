@@ -1,14 +1,16 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm install *)",
-      "Bash(npx tsc *)",
-      "Bash(yt-dlp --version)",
-      "Bash(node *)",
-      "Bash(pkill -f \"Electron\")",
-      "Bash(pkill -f \"electron-vite\")",
-      "Bash(npm run *)",
-      "Bash(npm test *)"
+      "Bash(git rebase *)",
+      "Bash(git stash *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(gh release *)",
+      "Bash(brew list *)",
+      "Bash(command -v gh)",
+      "Bash(/opt/homebrew/bin/gh --version)",
+      "Read(//usr/**)"
     ]
   }
 }
